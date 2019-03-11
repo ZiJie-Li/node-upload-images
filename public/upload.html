@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Upload Photos</title>
+    <meta name="description" content="Upload Photos">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/blueimp-gallery@2.27.0/css/blueimp-gallery.min.css">
+
+    <link rel="stylesheet" href="/assets/css/app.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="row mt-5">
+          <div class="col">
+            <h2 class="text-center title">Upload Photos</h2>
+          </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+              <div class="file-upload-box">
+                <div class="file-uploader">
+                    <div class="placeholder">
+                      <div class="text">
+                          Drag and drop files on here
+                          <br>
+                          OR
+                          <br>
+                          Click here to open files
+                      </div>
+                    </div>
+                    <input type="file" multiple="multiple" accept="image/png, image/jpeg" @change="onBrowse" />
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row mt-5" v-if="uploadFiles.length">
+            <div class="col-12 mb-3">
+                Photo List
+            </div>
+            <div class="col-12">
+                <ul class="row">
+                    <li class="col-lg-2 col-md-3 col-sm-4 col-xs-12" v-for="file, photoIndex in uploadFiles" :key="file">
+                        <div class="card" style="margin-bottom: 15px;">
+                            <div class="card-body" style="padding: 0; cursor: pointer;" @click="index = photoIndex">
+                              <div class="photo" :style="'background-image: url(' + file + ')'"></div>
+                            </div>
+                            <div class="card-footer" style="padding: 10px; background-color: #fff;">
+                              <small class="text-muted float-left">
+                                <a class="btn-link text-dark text-copy" href="#" :data-clipboard-text="file">複製網址</a>
+                              </small>
+                              <small class="text-muted float-right">
+                                <a class="btn-link text-dark" href="#" @click="deletePhoto(file)">刪除</a>
+                              </small>
+                            </div>
+                        </div>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+      </div>
+
+      <gallery :images="uploadFiles" :index="index" @close="index = null"></gallery>
+
+      <div class="progress-wrapper" v-show="uploadPercentage">
+          <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" :style="'width: ' + uploadPercentage + ';'" :aria-valuenow="uploadPercentage" aria-valuemin="0" aria-valuemax="100">{{ uploadPercentage }}%</div>
+          </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-helper.js"></script> 
+    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery.js"></script> 
+    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery-fullscreen.js"></script> 
+    <script src="https://unpkg.com/vue-gallery@2.0.0/dist/js/vue-gallery.min.js"></script>
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+    <script type="text/javascript">
+      var clipboard = new ClipboardJS('.text-copy');
+      clipboard.on('success', function(e) {
+          e.clearSelection();
+      });
+    </script>
+  </body>
+</html>
