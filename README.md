@@ -8,5 +8,5 @@
 
 ### 圖片預覽
 <p>
-	<img width="600px" src="https://i.imgur.com/hAXwd8S.png"/>
+	<img width="600px" src="https://i.imgur.com/u6eWIwh.png"/>
 </p>
