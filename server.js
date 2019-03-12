@@ -27,6 +27,15 @@ const render = (filename, params = {}) => {
   });
 };
 
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'images/');
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
 const upload = multer({
   dest: "images/",
   limits: { fileSize: 100000000, files: 20 },
@@ -36,7 +45,8 @@ const upload = multer({
     }
 
     callback(null, true);
-  }
+  },
+  storage: storage
 }).array("photos", 20);
 
 router.post("/images/upload", (req, res) => {

@@ -110,6 +110,9 @@ new Vue({
           alert("Delete Error!!");
         }
       });
+    },
+    getFilename: function(file) {
+      return file.replace(this.photoBasePath, "");
     }
   },
   components: {

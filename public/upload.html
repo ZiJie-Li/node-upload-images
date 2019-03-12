@@ -43,8 +43,9 @@
             </div>
             <div class="col-12">
                 <ul class="row">
-                    <li class="col-lg-2 col-md-3 col-sm-4 col-xs-12" v-for="file, photoIndex in uploadFiles" :key="file">
+                    <li class="col-lg-3 col-sm-4 col-xs-12" v-for="file, photoIndex in uploadFiles" :key="file">
                         <div class="card" style="margin-bottom: 15px;">
+                            <div class="card-header" style="padding: 10px; background-color: #fff;">{{ getFilename(file) }}</div>
                             <div class="card-body" style="padding: 0; cursor: pointer;" @click="index = photoIndex">
                               <div class="photo" :style="'background-image: url(' + file + ')'"></div>
                             </div>
@@ -74,9 +75,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-helper.js"></script> 
-    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery.js"></script> 
-    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery-fullscreen.js"></script> 
+    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-helper.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/blueimp-gallery@2.27.0/js/blueimp-gallery-fullscreen.js"></script>
     <script src="https://unpkg.com/vue-gallery@2.0.0/dist/js/vue-gallery.min.js"></script>
     <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
     <script src="/assets/js/app.js"></script>
