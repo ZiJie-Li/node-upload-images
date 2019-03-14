@@ -1,11 +1,8 @@
 "use strict";
 
-var baseUrl =
-  window.location.protocol +
-  "//" +
-  window.location.hostname +
-  ":" +
-  window.location.port;
+var port = window.location.port;
+var baseUrl = window.location.protocol + '//' + window.location.hostname;
+baseUrl = (port === 80 || port === 443) ? baseUrl : baseUrl + ':' + port;
 
 new Vue({
   el: "#app",
@@ -112,7 +109,7 @@ new Vue({
       });
     },
     getFilename: function(file) {
-      return file.replace(this.photoBasePath, "");
+      return decodeURIComponent(file.replace(this.photoBasePath, ""));
     }
   },
   components: {

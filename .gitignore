@@ -1,5 +1,5 @@
 node_modules/
 package-lock.json
 .DS_Store
-images/*
-!images/.DS_Store
+uploads/images/*
+!uploads/images/.DS_Store

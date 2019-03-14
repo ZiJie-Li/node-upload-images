@@ -4,11 +4,13 @@ const express = require("express");
 const multer = require("multer");
 const fileType = require("file-type");
 const fs = require("fs");
+const path = require('path')
 const app = express();
 const router = express.Router();
 
 const port = process.env.PORT || 8081;
-const publicPath = __dirname + "/public/";
+const publicPath = __dirname + '/public';
+const uploadPath = __dirname + '/uploads';
 
 const render = (filename, params = {}) => {
   let baseParams = {
@@ -29,10 +31,12 @@ const render = (filename, params = {}) => {
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'images/');
+    cb(null, 'uploads/images/');
   },
   filename: function(req, file, cb) {
-    cb(null, file.originalname);
+    let ext = path.extname(file.originalname);
+    let filename = file.originalname.replace(ext, '');
+    cb(null, encodeURIComponent(filename));
   }
 });
 
@@ -70,8 +74,8 @@ router.post("/images/upload", (req, res) => {
 });
 
 router.delete("/images/:imagename", (req, res) => {
-    let imagename = req.params.imagename
-    let imagepath = __dirname + "/images/" + imagename
+    let imagename = encodeURIComponent(req.params.imagename)
+    let imagepath = uploadPath + '/images/' + imagename
 
     try {
         fs.unlinkSync(imagepath)
@@ -83,7 +87,7 @@ router.delete("/images/:imagename", (req, res) => {
 
 router.get("/images", (req, res) => {
     let files = [];
-    fs.readdirSync(__dirname + "/images/").forEach(file => {
+    fs.readdirSync(uploadPath + '/images').forEach(file => {
         if (!file.match(/\.(DS_Store)$/)) {
             files.push(file)
         }
@@ -93,8 +97,8 @@ router.get("/images", (req, res) => {
 });
 
 router.get("/images/:imagename", (req, res) => {
-  let imagename = req.params.imagename;
-  let imagepath = __dirname + "/images/" + imagename;
+  let imagename = encodeURIComponent(req.params.imagename);
+  let imagepath = uploadPath + '/images/' + imagename;
   let image = fs.readFileSync(imagepath);
   let mime = fileType(image).mime;
 
@@ -103,7 +107,7 @@ router.get("/images/:imagename", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  render(publicPath + "upload.html")
+  render(publicPath + '/upload.html')
     .then(data => {
       res.send(data);
     })
@@ -112,7 +116,7 @@ router.get("/", (req, res) => {
     });
 });
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(publicPath));
 app.use("/", router);
 
 app.use((err, req, res, next) => {
